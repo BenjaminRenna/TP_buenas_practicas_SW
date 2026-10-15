@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_TAM_CALLE 67
 typedef struct {
-	char Calle1[40]; 
-	char Calle2[40];
+	char Calle1[MAX_TAM_CALLE]; 
+	char Calle2[MAX_TAM_CALLE];
 	int Trafico;
 } Vial;
 
@@ -60,7 +61,7 @@ Vial* agregarInterseccion(Vial *semaforo, int *cantidad){
 	int aux=0;
 	char Ncalle1[41];
 	char Ncalle2[41];
-	int Ntrafico;
+	int Ntrafico=0;
 	cantidad_actual=*cantidad+1;
 	
 	Vial *temporal = (Vial *) realloc(semaforo, cantidad_actual * sizeof(Vial));
@@ -78,7 +79,12 @@ Vial* agregarInterseccion(Vial *semaforo, int *cantidad){
 	Ncalle2[strlen(Ncalle2)-1]='\0';
 	strcpy(semaforo[*cantidad].Calle2, Ncalle2);
 	printf("Ingrese la intensidad del trafico en la interseccion (Entre 0 y 100)\n");
-	scanf("%d", &Ntrafico);
+	do{
+		scanf("%d", &Ntrafico);
+		if(Ntrafico <= 0 || Ntrafico>100){
+			printf("El trafico debe estar entre 0 y 100\n");
+		}
+	} while(Ntrafico <= 0 || Ntrafico>100);
 	limpiarBuffer();
 	semaforo[*cantidad].Trafico=Ntrafico;
 	(*cantidad)++;
